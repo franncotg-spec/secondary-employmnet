@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secondary Employment — Solicitud de Aprobación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f5f3;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.10);
+      --border-md: rgba(0,0,0,0.18);
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b68;
+      --text-hint: #9e9e9b;
+      --blue-50: #E6F1FB;
+      --blue-100: #B5D4F4;
+      --blue-600: #185FA5;
+      --blue-800: #0C447C;
+      --green-50: #EAF3DE;
+      --green-600: #3B6D11;
+      --green-800: #27500A;
+      --red-50: #FCEBEB;
+      --red-600: #A32D2D;
+      --red-800: #791F1F;
+      --amber-50: #FAEEDA;
+      --amber-600: #854F0B;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .page-header {
+      max-width: 660px;
+      margin: 0 auto 2rem;
+    }
+    .page-header .logo {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-hint);
+      margin-bottom: 0.5rem;
+    }
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .page-header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .app { max-width: 660px; margin: 0 auto; }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+    .step { display: flex; align-items: center; gap: 8px; }
+    .step-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1.5px solid var(--border-md);
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 500; color: var(--text-secondary);
+      flex-shrink: 0; transition: all 0.3s;
+    }
+    .step-circle.active { background: var(--blue-600); border-color: var(--blue-600); color: #fff; }
+    .step-circle.done { background: var(--green-600); border-color: var(--green-600); color: #fff; }
+    .step-label { font-size: 13px; color: var(--text-secondary); }
+    .step-label.active { color: var(--text-primary); font-weight: 500; }
+    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; transition: background 0.3s; }
+    .step-line.done { background: var(--green-600); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-hint);
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-grid.full { grid-template-columns: 1fr; }
+    @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+    .field input, .field select, .field textarea {
+      font-size: 14px; padding: 9px 11px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-md);
+      background: #fafaf9;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      width: 100%; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: var(--blue-600);
+      box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+      background: #fff;
+    }
+    .field textarea { resize: vertical; min-height: 85px; line-height: 1.6; }
+
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-opt {
+      display: flex; align-items: flex-start; gap: 11px;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .radio-opt:hover { border-color: var(--border-md); background: #fafaf9; }
+    .radio-opt.selected { border-color: var(--blue-600); background: var(--blue-50); }
+    .radio-opt input[type=radio] { margin-top: 3px; accent-color: var(--blue-600); flex-shrink: 0; }
+    .radio-opt-text strong { font-size: 14px; font-weight: 500; display: block; color: var(--text-primary); }
+    .radio-opt-text span { font-size: 12px; color: var(--text-secondary); }
+
+    .checkbox-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md); cursor: pointer;
+      transition: background 0.2s;
+    }
+    .checkbox-row:hover { background: #fafaf9; }
+    .checkbox-row input { margin-top: 2px; accent-color: var(--blue-600); flex-shrink: 0; }
+    .checkbox-row span { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+    .notice {
+      background: var(--blue-50); border: 1px solid var(--blue-100);
+      border-radius: var(--radius-md); padding: 11px 14px;
+      font-size: 13px; color: var(--blue-800);
+      display: flex; gap: 9px; align-items: flex-start; margin-bottom: 1rem;
+    }
+
+    .actions {
+      display: flex; justify-content: flex-end; gap: 10px;
+      margin-top: 1.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 9px 20px; border-radius: var(--radius-md);
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      border: 1px solid var(--border-md);
+      background: var(--surface); color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      display: inline-flex; align-items: center; gap: 7px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn:hover { background: #f5f5f3; }
+    .btn:active { transform: scale(0.98); }
+    .btn.primary { background: var(--blue-600); border-color: var(--blue-600); color: #fff; }
+    .btn.primary:hover { background: var(--blue-800); }
+    .btn.success { background: var(--green-600); border-color: var(--green-600); color: #fff; }
+    .btn.success:hover { background: var(--green-800); }
+    .btn.danger { background: var(--red-600); border-color: var(--red-600); color: #fff; }
+    .btn.danger:hover { background: var(--red-800); }
+
+    .review-row {
+      display: flex; justify-content: space-between;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .review-row:last-child { border-bottom: none; }
+    .review-row .lbl { color: var(--text-secondary); flex: 0 0 38%; }
+    .review-row .val { color: var(--text-primary); font-weight: 500; flex: 0 0 60%; text-align: right; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; padding: 4px 10px;
+      border-radius: 99px; letter-spacing: 0.03em;
+    }
+    .badge.pending { background: var(--amber-50); color: var(--amber-600); }
+    .badge.approved { background: var(--green-50); color: var(--green-600); }
+    .badge.rejected { background: var(--red-50); color: var(--red-600); }
+
+    .outcome-wrap { text-align: center; padding: 1rem 0; }
+    .outcome-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem; font-size: 26px;
+    }
+    .outcome-icon.approved { background: var(--green-50); color: var(--green-600); }
+    .outcome-icon.rejected { background: var(--red-50); color: var(--red-600); }
+    .outcome-title { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .outcome-sub { font-size: 14px; color: var(--text-secondary); max-width: 400px; margin: 0 auto; line-height: 1.6; }
+    .manager-comment {
+      background: #fafaf9; border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px 16px;
+      font-size: 13px; color: var(--text-secondary);
+      font-style: italic; margin-top: 1.25rem; text-align: left;
+    }
+    .outcome-actions {
+      display: flex; justify-content: center; gap: 10px;
+      margin-top: 1.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .hidden { display: none; }
+
+    .ref-number {
+      font-size: 12px; color: var(--text-hint);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <div class="logo">RRHH · Formularios</div>
+    <h1>Aprobación de empleo secundario</h1>
+    <p>Completa el formulario para solicitar autorización de actividad laboral adicional.</p>
+  </div>
+
+  <div class="app">
+    <div class="stepper" id="stepper">
+      <div class="step">
+        <div class="step-circle active" id="sc1">1</div>
+        <span class="step-label active" id="sl1">Tu solicitud</span>
+      </div>
+      <div class="step-line" id="line1"></div>
+      <div class="step">
+        <div class="step-circle" id="sc2">2</div>
+        <span class="step-label" id="sl2">Revisión</span>
+      </div>
+      <div class="step-line" id="line2"></div>
+      <div class="step">
+        <div class="step-circle" id="sc3">3</div>
+        <span class="step-label" id="sl3">Resultado</span>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div id="step1">
+      <div class="card">
+        <p class="section-title">Datos del empleado</p>
+        <div class="form-grid">
+          <div class="field"><label for="emp-name">Nombre completo</label><input type="text" id="emp-name" placeholder="Ej. Ana García López"></div>
+          <div class="field"><label for="emp-id">ID de empleado</label><input type="text" id="emp-id" placeholder="EMP-00123"></div>
+          <div class="field"><label for="emp-dept">Departamento</label><input type="text" id="emp-dept" placeholder="Ej. Tecnología"></div>
+          <div class="field"><label for="emp-manager">Manager directo</label><input type="text" id="emp-manager" placeholder="Ej. Carlos Ruiz"></div>
+        </div>
+
+        <p class="section-title" style="margin-top:1.5rem">Empleo secundario</p>
+        <div class="form-grid">
+          <div class="field"><label for="sec-company">Empresa / empleador</label><input type="text" id="sec-company" placeholder="Nombre de la empresa"></div>
+          <div class="field"><label for="sec-role">Cargo / rol</label><input type="text" id="sec-role" placeholder="Ej. Consultor freelance"></div>
+          <div class="field"><label for="sec-start">Fecha de inicio prevista</label><input type="date" id="sec-start"></div>
+          <div class="field"><label for="sec-hours">Horas semanales estimadas</label><input type="number" id="sec-hours" placeholder="Ej. 10" min="1" max="40"></div>
+        </div>
+        <div class="form-grid full">
+          <div class="field"><label for="sec-desc">Descripción de las actividades</label><textarea id="sec-desc" placeholder="Describe brevemente en qué consistirá el trabajo secundario..."></textarea></div>
+        </div>
+
+        <p class="section-title" style="margin-top:1.5rem">Tipo de empleo</p>
+        <div class="radio-group">
+          <label class="radio-opt" onclick="selectRadio(this)">
+            <input type="radio" name="emptype" value="freelance">
+            <div class="radio-opt-text"><strong>Freelance / autónomo</strong><span>Trabajo por cuenta propia, sin contrato laboral</span></div>
+          </label>
+          <label class="radio-opt" onclick="selectRadio(this)">
+            <input type="radio" name="emptype" value="partime">
+            <div class="radio-opt-text"><strong>Contrato a tiempo parcial</strong><span>Contrato laboral con otra empresa</span></div>
+          </label>
+          <label class="radio-opt" onclick="selectRadio(this)">
+            <input type="radio" name="emptype" value="board">
+            <div class="radio-opt-text"><strong>Miembro de consejo / advisory</strong><span>Participación en órganos de gobierno</span></div>
+          </label>
+        </div>
+
+        <p class="section-title" style="margin-top:1.5rem">Declaraciones</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label class="checkbox-row"><input type="checkbox" id="chk1"><span>Confirmo que esta actividad no genera conflicto de interés con mi puesto actual.</span></label>
+          <label class="checkbox-row"><input type="checkbox" id="chk2"><span>Esta actividad no se realizará en horario laboral ni utilizando recursos de la empresa.</span></label>
+          <label class="checkbox-row"><input type="checkbox" id="chk3"><span>He leído y entiendo la política de secondary employment de la empresa.</span></label>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" onclick="goToReview()">
+            <i class="ti ti-arrow-right"></i> Enviar para revisión
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="hidden">
+      <div class="notice">
+        <i class="ti ti-info-circle"></i>
+        <span>Vista de revisión — esta pantalla simula lo que ve el manager al recibir la solicitud.</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem">
+          <div>
+            <p style="font-size:16px;font-weight:600" id="rev-name">—</p>
+            <p style="font-size:13px;color:var(--text-secondary);margin-top:2px" id="rev-dept">—</p>
+            <p class="ref-number" id="rev-ref">—</p>
+          </div>
+          <span class="badge pending"><i class="ti ti-clock" style="font-size:11px"></i> Pendiente</span>
+        </div>
+
+        <p class="section-title">Detalles de la solicitud</p>
+        <div id="rev-rows"></div>
+
+        <p class="section-title" style="margin-top:1.5rem">Comentarios del manager</p>
+        <div class="form-grid full">
+          <div class="field"><textarea id="mgr-comment" placeholder="Añade un comentario o justificación (opcional)..."></textarea></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" onclick="goBack()"><i class="ti ti-arrow-left"></i> Volver</button>
+          <button class="btn danger" onclick="decide('rejected')"><i class="ti ti-x"></i> Rechazar</button>
+          <button class="btn success" onclick="decide('approved')"><i class="ti ti-check"></i> Aprobar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" class="hidden">
+      <div class="card">
+        <div class="outcome-wrap">
+          <div class="outcome-icon" id="outcome-icon"></div>
+          <p class="outcome-title" id="outcome-title"></p>
+          <p class="outcome-sub" id="outcome-sub"></p>
+          <div class="manager-comment hidden" id="outcome-comment"></div>
+          <div class="outcome-actions">
+            <button class="btn" onclick="reset()"><i class="ti ti-refresh"></i> Nueva solicitud</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectRadio(el) {
+      document.querySelectorAll('.radio-opt').forEach(r => r.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function generateRef() {
+      return 'SE-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    function goToReview() {
+      const name = document.getElementById('emp-name').value.trim() || 'Empleado';
+      const id = document.getElementById('emp-id').value.trim() || '—';
+      const dept = document.getElementById('emp-dept').value.trim() || '—';
+      const manager = document.getElementById('emp-manager').value.trim() || '—';
+      const company = document.getElementById('sec-company').value.trim() || '—';
+      const role = document.getElementById('sec-role').value.trim() || '—';
+      const start = document.getElementById('sec-start').value || '—';
+      const hours = document.getElementById('sec-hours').value || '—';
+      const desc = document.getElementById('sec-desc').value.trim() || '—';
+      const typeEl = document.querySelector('input[name=emptype]:checked');
+      const typeMap = { freelance: 'Freelance / autónomo', partime: 'Contrato a tiempo parcial', board: 'Miembro de consejo / advisory' };
+      const empType = typeEl ? typeMap[typeEl.value] : '—';
+
+      document.getElementById('rev-name').textContent = name;
+      document.getElementById('rev-dept').textContent = dept + ' · Manager: ' + manager;
+      document.getElementById('rev-ref').textContent = 'Ref: ' + generateRef() + ' · ID: ' + id;
+
+      const rows = [
+        ['Empresa secundaria', company],
+        ['Cargo / rol', role],
+        ['Tipo de empleo', empType],
+        ['Fecha de inicio', start],
+        ['Horas semanales', hours !== '—' ? hours + ' h/semana' : '—'],
+        ['Descripción', desc]
+      ];
+
+      document.getElementById('rev-rows').innerHTML = rows.map(([l, v]) =>
+        `<div class="review-row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`
+      ).join('');
+
+      setStep(2);
+    }
+
+    function goBack() { setStep(1); }
+
+    function decide(outcome) {
+      const comment = document.getElementById('mgr-comment').value.trim();
+      const icon = document.getElementById('outcome-icon');
+      const title = document.getElementById('outcome-title');
+      const sub = document.getElementById('outcome-sub');
+      const commentEl = document.getElementById('outcome-comment');
+
+      if (outcome === 'approved') {
+        icon.className = 'outcome-icon approved';
+        icon.innerHTML = '<i class="ti ti-check"></i>';
+        title.textContent = 'Solicitud aprobada';
+        sub.textContent = 'Tu manager ha aprobado el empleo secundario. Recibirás una confirmación por correo con los detalles.';
+      } else {
+        icon.className = 'outcome-icon rejected';
+        icon.innerHTML = '<i class="ti ti-x"></i>';
+        title.textContent = 'Solicitud rechazada';
+        sub.textContent = 'Tu manager ha denegado la solicitud. Consulta los comentarios a continuación o ponte en contacto con RRHH.';
+      }
+
+      if (comment) {
+        commentEl.classList.remove('hidden');
+        commentEl.textContent = '"' + comment + '"';
+      } else {
+        commentEl.classList.add('hidden');
+      }
+
+      setStep(3);
+    }
+
+    function setStep(n) {
+      document.getElementById('step1').classList.toggle('hidden', n !== 1);
+      document.getElementById('step2').classList.toggle('hidden', n !== 2);
+      document.getElementById('step3').classList.toggle('hidden', n !== 3);
+
+      [1, 2, 3].forEach(i => {
+        const circle = document.getElementById('sc' + i);
+        const label = document.getElementById('sl' + i);
+        circle.className = 'step-circle' + (i < n ? ' done' : i === n ? ' active' : '');
+        circle.innerHTML = i < n ? '<i class="ti ti-check" style="font-size:13px"></i>' : i;
+        label.className = 'step-label' + (i === n ? ' active' : '');
+      });
+
+      document.getElementById('line1').className = 'step-line' + (n > 1 ? ' done' : '');
+      document.getElementById('line2').className = 'step-line' + (n > 2 ? ' done' : '');
+    }
+
+    function reset() {
+      ['emp-name','emp-id','emp-dept','emp-manager','sec-company','sec-role','sec-start','sec-hours','sec-desc','mgr-comment']
+        .forEach(id => document.getElementById(id).value = '');
+      document.querySelectorAll('.radio-opt').forEach(r => r.classList.remove('selected'));
+      document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
+      setStep(1);
+    }
+  </script>
+</body>
+</html>
