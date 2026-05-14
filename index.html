@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHS – Notification of Secondary Employment</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ────────────────────────────────────────────── */
+    .bhs-header {
+      background: #1a3a6b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .bhs-logo-box {
+      background: white;
+      border-radius: 6px;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+    }
+    .bhs-logo-box img { height: 36px; width: auto; display: block; }
+
+    .bhs-nav { display: flex; align-items: center; gap: 4px; }
+    .bhs-nav-item {
+      color: rgba(255,255,255,0.85);
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .bhs-nav-item:hover { background: rgba(255,255,255,0.1); }
+    .bhs-nav-item.active { color: white; font-weight: 500; }
+
+    .bhs-search {
+      flex: 1;
+      max-width: 380px;
+      margin: 0 20px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      padding: 6px 14px;
+      gap: 8px;
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      cursor: text;
+    }
+    .bhs-search input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 13px;
+      width: 100%;
+      font-family: inherit;
+    }
+    .bhs-search input::placeholder { color: rgba(255,255,255,0.55); }
+
+    .bhs-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: white;
+    }
+    .bhs-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      position: relative;
+      transition: background 0.15s;
+      color: rgba(255,255,255,0.85);
+    }
+    .bhs-icon-btn:hover { background: rgba(255,255,255,0.12); color: white; }
+
+    .bhs-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: #e24b4b;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 1px 4px;
+      line-height: 1.2;
+    }
+
+    .bhs-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #4a90d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ── PAGE BODY ─────────────────────────────────────────── */
+    .page-body {
+      max-width: 860px;
+      margin: 32px auto;
+      padding: 0 16px 48px;
+    }
+
+    /* ── FORM CARD ─────────────────────────────────────────── */
+    .form-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .form-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 18px 24px 14px;
+      border-bottom: 1px solid #e8eaed;
+    }
+    .form-title { font-size: 15px; font-weight: 600; color: #1a1a2e; }
+    .form-meta { font-size: 11px; color: #888; margin-top: 3px; }
+    .form-badge {
+      font-size: 11px;
+      background: #f0f2f5;
+      border: 1px solid #dde1e7;
+      border-radius: 4px;
+      padding: 4px 10px;
+      color: #555;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ── SECTIONS ──────────────────────────────────────────── */
+    .section { padding: 20px 24px 0; }
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #888;
+      border-bottom: 1px solid #e8eaed;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .field-row.single { grid-template-columns: 1fr; }
+
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-label { font-size: 12px; color: #555; font-weight: 500; }
+
+    .field-input {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 7px 11px;
+      font-size: 13px;
+      color: #1a1a2e;
+      background: white;
+      font-family: inherit;
+      outline: none;
+      width: 100%;
+      height: 36px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field-input:focus {
+      border-color: #1a3a6b;
+      box-shadow: 0 0 0 3px rgba(26,58,107,0.1);
+    }
+    textarea.field-input {
+      height: 70px;
+      resize: vertical;
+    }
+
+    /* ── HOURS TABLE ───────────────────────────────────────── */
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    .hours-table th {
+      background: #f4f6f9;
+      padding: 7px 6px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 11px;
+      color: #666;
+      border: 1px solid #e0e3e8;
+    }
+    .hours-table td {
+      border: 1px solid #e0e3e8;
+      padding: 4px 2px;
+    }
+    .hours-row-label {
+      font-size: 11px;
+      color: #666;
+      padding: 5px 10px;
+      background: #f4f6f9;
+      border: 1px solid #e0e3e8;
+      font-weight: 600;
+      text-align: center;
+    }
+    .hours-table input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 12px;
+      color: #1a1a2e;
+      font-family: inherit;
+      outline: none;
+      padding: 3px;
+    }
+    .hours-table input:focus { background: #eef2ff; }
+
+    /* ── INFO BOX ──────────────────────────────────────────── */
+    .info-box {
+      margin: 20px 24px 0;
+      background: #f8f9fb;
+      border: 1px solid #e0e3e8;
+      border-left: 3px solid #1a3a6b;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    /* ── SIGNATURES ────────────────────────────────────────── */
+    .sig-section { padding: 20px 24px 0; }
+    .sig-block {
+      border: 1px solid #e0e3e8;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+    }
+    .sig-role {
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .sig-line { border-bottom: 1px solid #bbb; height: 30px; }
+    .sig-line-label { font-size: 10px; color: #999; margin-top: 4px; }
+
+    /* ── FOOTER ────────────────────────────────────────────── */
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 20px 24px;
+      border-top: 1px solid #e8eaed;
+      margin-top: 20px;
+    }
+    .btn {
+      padding: 8px 20px;
+      font-size: 13px;
+      border-radius: 6px;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .btn-secondary {
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #555;
+    }
+    .btn-secondary:hover { background: #f4f6f9; }
+    .btn-primary {
+      border: none;
+      background: #1a3a6b;
+      color: white;
+    }
+    .btn-primary:hover { background: #152f58; }
+
+    @media (max-width: 600px) {
+      .field-row { grid-template-columns: 1fr; }
+      .sig-row { grid-template-columns: 1fr; }
+      .bhs-search { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="bhs-header">
+
+    <div class="bhs-logo-box">
+      <img
+        src="data:image/jpeg;base64,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"
+        alt="BHS Logo"
+      />
+    </div>
+
+    <nav class="bhs-nav">
+      <div class="bhs-nav-item active">
+        Home <i class="ti ti-chevron-down" style="font-size:11px;"></i>
+      </div>
+    </nav>
+
+    <div class="bhs-search">
+      <i class="ti ti-search" style="font-size:14px; flex-shrink:0;"></i>
+      <input type="text" placeholder="Search for actions or people" />
+    </div>
+
+    <div class="bhs-icons">
+      <div class="bhs-icon-btn" title="Search"><i class="ti ti-search"></i></div>
+      <div class="bhs-icon-btn" title="Location"><i class="ti ti-map-pin"></i></div>
+      <div class="bhs-icon-btn" title="Tasks">
+        <i class="ti ti-checkbox"></i>
+        <span class="bhs-badge">3</span>
+      </div>
+      <div class="bhs-icon-btn" title="Profile"><i class="ti ti-user-circle"></i></div>
+      <div class="bhs-icon-btn" title="Support"><i class="ti ti-headset"></i></div>
+      <div class="bhs-icon-btn" title="Play"><i class="ti ti-player-play"></i></div>
+      <div class="bhs-icon-btn" title="Notifications"><i class="ti ti-bell"></i></div>
+      <div class="bhs-avatar" title="User">U</div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ FORM ═══════════════ -->
+  <main class="page-body">
+    <div class="form-card">
+
+      <div class="form-title-bar">
+        <div>
+          <div class="form-title">Notification of Secondary Employment</div>
+          <div class="form-meta">FO_WHR_B01_003 &nbsp;|&nbsp; V1.0 &nbsp;|&nbsp; 2018-09</div>
+        </div>
+        <div class="form-badge">Intern / Internal</div>
+      </div>
+
+      <!-- STAFF -->
+      <div class="section">
+        <div class="section-title">Staff</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Last name, first name</label>
+            <input class="field-input" type="text" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">PNR</label>
+            <input class="field-input" type="text" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Department</label>
+            <input class="field-input" type="text" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Head of Department</label>
+            <input class="field-input" type="text" />
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY EMPLOYMENT -->
+      <div class="section">
+        <div class="section-title">Type and scope of secondary employment</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Secondary employment from</label>
+            <input class="field-input" type="date" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Amount of time / week</label>
+            <input class="field-input" type="text" placeholder="e.g. 8h" />
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field-group">
+            <label class="field-label">Description of the job</label>
+            <textarea class="field-input" placeholder="Describe the secondary employment activity..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOURS TABLE -->
+      <div class="section">
+        <div class="section-title">Distribution of working hours per week (times per day)</div>
+        <table class="hours-table">
+          <thead>
+            <tr>
+              <th style="width:56px;"></th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hours-row-label">From</td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+            </tr>
+            <tr>
+              <td class="hours-row-label">To</td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+              <td><input type="text" placeholder="--:--" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- INFO NOTE -->
+      <div class="info-box">
+        If the daily working hours or the distribution over the days of the week fluctuates, the working hours per day must be documented once a month (at the beginning of the following month) in compliance with the enclosed information sheet in the form of suitable time sheets.
+      </div>
+
+      <!-- SIGNATURES -->
+      <div class="sig-section">
+        <div class="sig-block">
+          <div class="sig-role">Staff</div>
+          <div class="sig-row">
+            <div><div class="sig-line"></div><div class="sig-line-label">Location, date</div></div>
+            <div><div class="sig-line"></div><div class="sig-line-label">Signature</div></div>
+          </div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-role">Head of Department / Supervisor</div>
+          <div class="sig-row">
+            <div><div class="sig-line"></div><div class="sig-line-label">Location, date</div></div>
+            <div><div class="sig-line"></div><div class="sig-line-label">Signature</div></div>
+          </div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-role">Human Resources Management</div>
+          <div class="sig-row">
+            <div><div class="sig-line"></div><div class="sig-line-label">Location, date</div></div>
+            <div><div class="sig-line"></div><div class="sig-line-label">Signature</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER BUTTONS -->
+      <div class="form-footer">
+        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-primary">Submit form</button>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
